@@ -1,12 +1,10 @@
 package com.phoosop.reactive.annotations;
 
-import com.phoosop.reactive.exception.StatusConstants;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-import static com.phoosop.reactive.exception.StatusConstants.*;
+import static com.phoosop.reactive.exception.StatusConstants.HttpConstants;
 
 
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})

@@ -1,7 +1,6 @@
 package com.phoosop.reactive.converter;
 
 import com.phoosop.reactive.exception.ServiceException;
-import com.phoosop.reactive.exception.StatusConstants;
 import com.phoosop.reactive.model.command.UserCommand;
 import com.phoosop.reactive.model.entity.UserEntity;
 import com.phoosop.reactive.model.enums.UserLevel;
@@ -10,7 +9,7 @@ import com.phoosop.reactive.model.enums.UserType;
 import org.mapstruct.Mapper;
 import org.springframework.core.convert.converter.Converter;
 
-import static com.phoosop.reactive.exception.StatusConstants.*;
+import static com.phoosop.reactive.exception.StatusConstants.HttpConstants;
 
 @Mapper(componentModel = "spring")
 public abstract class UserEntityToUserCommandConverter implements Converter<UserEntity, UserCommand> {

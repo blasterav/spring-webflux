@@ -8,11 +8,9 @@ import io.r2dbc.spi.ConnectionFactoryOptions;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
-import org.springframework.validation.annotation.Validated;
 
 import static io.r2dbc.spi.ConnectionFactoryOptions.*;
 import static java.time.Duration.ofSeconds;

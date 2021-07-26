@@ -1,17 +1,15 @@
 package com.phoosop.reactive.converter;
 
 import com.phoosop.reactive.exception.ServiceException;
-import com.phoosop.reactive.exception.StatusConstants;
 import com.phoosop.reactive.model.command.UserCommand;
 import com.phoosop.reactive.model.enums.UserLevel;
 import com.phoosop.reactive.model.enums.UserStatus;
 import com.phoosop.reactive.model.enums.UserType;
 import com.phoosop.reactive.model.request.CreateUserRequest;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.core.convert.converter.Converter;
 
-import static com.phoosop.reactive.exception.StatusConstants.*;
+import static com.phoosop.reactive.exception.StatusConstants.HttpConstants;
 
 
 @Mapper(componentModel = "spring")

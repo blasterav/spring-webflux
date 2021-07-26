@@ -1,7 +1,6 @@
 package com.phoosop.reactive.annotations;
 
 import com.phoosop.reactive.exception.InvalidRequestException;
-import com.phoosop.reactive.exception.StatusConstants;
 import com.phoosop.reactive.model.enums.BaseEnum;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.phoosop.reactive.exception.StatusConstants.*;
+import static com.phoosop.reactive.exception.StatusConstants.HttpConstants;
 
 @Component
 public class IsEnumAnnotation implements ConstraintValidator<IsEnum, Object> {

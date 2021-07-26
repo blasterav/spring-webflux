@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.ValidationException;
 
-import static com.phoosop.reactive.exception.StatusConstants.*;
+import static com.phoosop.reactive.exception.StatusConstants.HttpConstants;
 
 @Component
 @Order(-2)

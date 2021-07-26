@@ -3,7 +3,6 @@ package com.phoosop.reactive.model.command;
 import com.phoosop.reactive.model.enums.UserLevel;
 import com.phoosop.reactive.model.enums.UserStatus;
 import com.phoosop.reactive.model.enums.UserType;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

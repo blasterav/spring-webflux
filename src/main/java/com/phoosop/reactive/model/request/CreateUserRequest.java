@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.phoosop.reactive.annotations.*;
 import com.phoosop.reactive.model.enums.UserStatus;
 import com.phoosop.reactive.model.enums.UserType;
-import com.phoosop.reactive.service.DateTimeUtils;
+import com.phoosop.reactive.util.DateTimeUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

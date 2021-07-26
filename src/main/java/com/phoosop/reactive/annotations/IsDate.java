@@ -1,14 +1,13 @@
 package com.phoosop.reactive.annotations;
 
 
-import com.phoosop.reactive.exception.StatusConstants;
-import com.phoosop.reactive.service.DateTimeUtils;
+import com.phoosop.reactive.util.DateTimeUtils;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-import static com.phoosop.reactive.exception.StatusConstants.*;
+import static com.phoosop.reactive.exception.StatusConstants.HttpConstants;
 
 
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})

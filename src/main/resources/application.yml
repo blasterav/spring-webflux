@@ -17,28 +17,3 @@ r2dbc:
     max-acquire-time: 5
     max-create-connection-time: 10
     max-life-time: 1800
-
-#encryption:
-#  secret-key: secret
-
-#reactor:
-##  netty:
-##    pool:
-##      maxConnections: 100
-##    ioWorkerCount: 4
-##    udp:
-##      ioThreadCount: 4
-##    http:
-##      server:
-##        accessLogEnabled: true
-#  schedulers:
-#    defaultBoundedElasticSize: 200
-
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        r2dbc: DEBUG
-
-
-

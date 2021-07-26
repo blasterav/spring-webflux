@@ -2,7 +2,7 @@ package com.phoosop.reactive.exception;
 
 import lombok.Getter;
 
-import static com.phoosop.reactive.exception.StatusConstants.*;
+import static com.phoosop.reactive.exception.StatusConstants.HttpConstants;
 
 
 @Getter

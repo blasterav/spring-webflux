@@ -1,4 +1,4 @@
-package com.phoosop.reactive.service;
+package com.phoosop.reactive.util;
 
 import org.apache.commons.lang3.StringUtils;
 

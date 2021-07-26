@@ -1,14 +1,12 @@
 package com.phoosop.reactive.annotations;
 
 import com.phoosop.reactive.exception.InvalidRequestException;
-import com.phoosop.reactive.exception.StatusConstants;
-
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import static com.phoosop.reactive.exception.StatusConstants.*;
+import static com.phoosop.reactive.exception.StatusConstants.HttpConstants;
 
 @Component
 public class MaxAnnotation implements ConstraintValidator<Max, Object> {

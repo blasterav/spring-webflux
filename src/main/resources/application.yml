@@ -1,0 +1,44 @@
+server:
+  servlet:
+    context-path: /reactive
+
+r2dbc:
+#  hostname: host.docker.internal
+  hostname: localhost
+  database: test
+  port: 3306
+  username: root
+  password: Thebreaker
+  connection-timeout: 10
+  pool:
+    initial-size: 4
+    max-size: 4
+    max-idle-time: 90
+    max-acquire-time: 5
+    max-create-connection-time: 10
+    max-life-time: 1800
+
+#encryption:
+#  secret-key: secret
+
+#reactor:
+##  netty:
+##    pool:
+##      maxConnections: 100
+##    ioWorkerCount: 4
+##    udp:
+##      ioThreadCount: 4
+##    http:
+##      server:
+##        accessLogEnabled: true
+#  schedulers:
+#    defaultBoundedElasticSize: 200
+
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        r2dbc: DEBUG
+
+
+

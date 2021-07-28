@@ -1,15 +1,16 @@
 package com.phoosop.reactive.controller;
 
 import com.phoosop.reactive.component.UserComponent;
+import com.phoosop.reactive.model.CustomPage;
 import com.phoosop.reactive.model.Response;
 import com.phoosop.reactive.model.request.CreateUserRequest;
+import com.phoosop.reactive.model.request.UpdateUserRequest;
 import com.phoosop.reactive.model.response.UserResponse;
+import com.phoosop.reactive.model.response.UserShortResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
@@ -29,6 +30,33 @@ public class UserController implements BaseController {
         return success(userResponseMono);
     }
 
+    @PutMapping(path = "/v1/users/{id}")
+    public Mono<Response<UserResponse>> updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest request) {
+        Mono<UserResponse> userResponseMono = userComponent.updateUser(id, request)
+                .map(item -> conversionService.convert(item, UserResponse.class));
+        return success(userResponseMono);
+    }
 
+    @GetMapping(path = "/v1/users/{id}")
+    public Mono<Response<UserResponse>> getUser(@PathVariable Long id) {
+        Mono<UserResponse> userResponseMono = userComponent.getUser(id)
+                .map(item -> conversionService.convert(item, UserResponse.class));
+        return success(userResponseMono);
+    }
+
+    @GetMapping(path = "/v1/users")
+    public Mono<Response<CustomPage<UserShortResponse>>> getUserList(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                                                     @RequestParam(required = false, defaultValue = "10") Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Mono<CustomPage<UserShortResponse>> pageMono = userComponent.getUserList(pageRequest)
+                .map(pageResponse -> new CustomPage<>(pageResponse.map(item -> conversionService.convert(item, UserShortResponse.class))));
+        return success(pageMono);
+    }
+
+    @DeleteMapping(path = "/v1/users/{id}")
+    public Mono<Response<UserResponse>> deleteUser(@PathVariable Long id) {
+        userComponent.deleteUser(id);
+        return success();
+    }
 
 }

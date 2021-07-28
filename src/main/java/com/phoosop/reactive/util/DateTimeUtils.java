@@ -20,11 +20,9 @@ public class DateTimeUtils {
         }
         try {
             return Optional.of(new SimpleDateFormat(pattern).parse(source));
-        } catch (ParseException ignored) {
-
+        } catch (ParseException e) {
+            return Optional.empty();
         }
-
-        return Optional.empty();
     }
 
     public static String convertDateToString(Date date, String pattern) {

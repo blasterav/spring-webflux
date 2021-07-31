@@ -1,6 +1,7 @@
 server:
-  servlet:
-    context-path: /reactive
+  shutdown: graceful
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
 
 r2dbc:
 #  hostname: host.docker.internal

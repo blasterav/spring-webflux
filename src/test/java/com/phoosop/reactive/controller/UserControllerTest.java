@@ -685,7 +685,7 @@ class UserControllerTest {
         ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
         };
 
-        Response<UserResponse> actualResponse = webTestClient.put().uri("/v1/users/1")
+        Response<UserResponse> actualResponse = webTestClient.patch().uri("/v1/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(actualRequest))
                 .exchange()
@@ -730,7 +730,7 @@ class UserControllerTest {
         ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
         };
 
-        Response<UserResponse> actualResponse = webTestClient.put().uri("/v1/users/1")
+        Response<UserResponse> actualResponse = webTestClient.patch().uri("/v1/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(actualRequest))
                 .exchange()
@@ -768,7 +768,7 @@ class UserControllerTest {
         ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
         };
 
-        Response<UserResponse> actualResponse = webTestClient.put().uri("/v1/users/1")
+        Response<UserResponse> actualResponse = webTestClient.patch().uri("/v1/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(actualRequest))
                 .exchange()
@@ -806,7 +806,7 @@ class UserControllerTest {
         ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
         };
 
-        Response<UserResponse> actualResponse = webTestClient.put().uri("/v1/users/1")
+        Response<UserResponse> actualResponse = webTestClient.patch().uri("/v1/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(actualRequest))
                 .exchange()
@@ -841,7 +841,7 @@ class UserControllerTest {
         ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
         };
 
-        Response<UserResponse> actualResponse = webTestClient.put().uri("/v1/users/1")
+        Response<UserResponse> actualResponse = webTestClient.patch().uri("/v1/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(actualRequest))
                 .exchange()
@@ -876,7 +876,7 @@ class UserControllerTest {
         ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
         };
 
-        Response<UserResponse> actualResponse = webTestClient.put().uri("/v1/users/1")
+        Response<UserResponse> actualResponse = webTestClient.patch().uri("/v1/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(actualRequest))
                 .exchange()
@@ -911,7 +911,7 @@ class UserControllerTest {
         ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
         };
 
-        Response<UserResponse> actualResponse = webTestClient.put().uri("/v1/users/1")
+        Response<UserResponse> actualResponse = webTestClient.patch().uri("/v1/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(actualRequest))
                 .exchange()
@@ -946,7 +946,7 @@ class UserControllerTest {
         ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
         };
 
-        Response<UserResponse> actualResponse = webTestClient.put().uri("/v1/users/1")
+        Response<UserResponse> actualResponse = webTestClient.patch().uri("/v1/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(actualRequest))
                 .exchange()
@@ -981,7 +981,7 @@ class UserControllerTest {
         ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
         };
 
-        Response<UserResponse> actualResponse = webTestClient.put().uri("/v1/users/1")
+        Response<UserResponse> actualResponse = webTestClient.patch().uri("/v1/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(actualRequest))
                 .exchange()
@@ -1137,7 +1137,7 @@ class UserControllerTest {
                 .setAge(18);
 
         Mockito.when(userComponent.getUserList(Mockito.any()))
-                .thenReturn(Mono.just(new PageImpl<>(Arrays.asList(userCommand1, userCommand2))));
+                .thenReturn(Mono.just(new CustomPage<>(Arrays.asList(userCommand1, userCommand2), 1, 2, 2)));
 
         ParameterizedTypeReference<Response<CustomPage<UserShortResponse>>> typeReference = new ParameterizedTypeReference<Response<CustomPage<UserShortResponse>>>() {
         };
@@ -1154,6 +1154,8 @@ class UserControllerTest {
         Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SUCCESS.getCode());
         Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SUCCESS.getDesc());
 
+        Assertions.assertThat(actualResponse.getData().getNumber()).isEqualTo(1);
+        Assertions.assertThat(actualResponse.getData().getSize()).isEqualTo(2);
         Assertions.assertThat(actualResponse.getData().getTotalElements()).isEqualTo(2);
 
         Assertions.assertThat(actualResponse.getData().getContent().size()).isEqualTo(2);

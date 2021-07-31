@@ -3,6 +3,7 @@ package com.phoosop.reactive.component;
 import com.phoosop.reactive.exception.NotFoundException;
 import com.phoosop.reactive.exception.ServiceException;
 import com.phoosop.reactive.exception.StatusConstants.HttpConstants;
+import com.phoosop.reactive.model.CustomPage;
 import com.phoosop.reactive.model.command.UserCommand;
 import com.phoosop.reactive.model.enums.UserLevel;
 import com.phoosop.reactive.model.enums.UserStatus;
@@ -13,7 +14,6 @@ import com.phoosop.reactive.service.UserPersistenceService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -70,7 +70,7 @@ public class UserComponent {
                 .switchIfEmpty(Mono.error(new NotFoundException(HttpConstants.USER_NOT_FOUND)));
     }
 
-    public Mono<Page<UserCommand>> getUserList(Pageable pageable) {
+    public Mono<CustomPage<UserCommand>> getUserList(Pageable pageable) {
         return userPersistenceService.findAll(pageable);
     }
 

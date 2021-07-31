@@ -7,9 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -27,10 +28,8 @@ public class CustomPage<T> {
 
     private long totalElements;
 
-    public CustomPage(Page<T> page) {
-        this.content = page.getContent();
-        this.number = page.getNumber();
-        this.size = page.getSize();
-        this.totalElements = page.getTotalElements();
+    public <U> CustomPage<U> map(Function<? super T, ? extends U> converter) {
+        return new CustomPage<U>(this.content.stream().map(converter).collect(Collectors.toList()), this.number, this.size, this.totalElements);
     }
+
 }

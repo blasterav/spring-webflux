@@ -2,7 +2,6 @@ package com.phoosop.reactive.converter;
 
 import com.phoosop.reactive.exception.ServiceException;
 import com.phoosop.reactive.model.command.UserCommand;
-import com.phoosop.reactive.model.enums.UserLevel;
 import com.phoosop.reactive.model.enums.UserStatus;
 import com.phoosop.reactive.model.enums.UserType;
 import com.phoosop.reactive.model.request.CreateUserRequest;
@@ -24,11 +23,6 @@ public abstract class CreateUserRequestToUserCommandConverter implements Convert
 
     public UserType stringToUserType(String id) {
         return UserType.find(id)
-                .orElseThrow(() -> new ServiceException(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM));
-    }
-
-    public UserLevel intToUserLevel(Integer id) {
-        return UserLevel.find(id)
                 .orElseThrow(() -> new ServiceException(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM));
     }
 

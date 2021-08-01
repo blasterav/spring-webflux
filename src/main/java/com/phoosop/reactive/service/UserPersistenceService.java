@@ -7,26 +7,21 @@ import com.phoosop.reactive.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static org.springframework.data.relational.core.query.Criteria.where;
-import static org.springframework.data.relational.core.query.Query.query;
-
 @Service
 @RequiredArgsConstructor
 public class UserPersistenceService {
 
-    private final R2dbcEntityTemplate template;
     private final UserRepository userRepository;
     private final ConversionService conversionService;
 
     public Mono<UserCommand> save(UserCommand userCommand) {
-        return template.insert(UserEntity.class)
-                .using(conversionService.convert(userCommand, UserEntity.class))
+        UserEntity userEntity = conversionService.convert(userCommand, UserEntity.class);
+        return userRepository.save(userEntity)
                 .map(item -> {
                     userCommand.setId(item.getId());
                     return userCommand;
@@ -34,9 +29,7 @@ public class UserPersistenceService {
     }
 
     public Mono<UserCommand> findById(long id) {
-        return template.select(UserEntity.class)
-                .matching(query(where("id").is(id)))
-                .one()
+        return userRepository.findById(id)
                 .map(item -> conversionService.convert(item, UserCommand.class));
     }
 

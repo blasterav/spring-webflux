@@ -23,7 +23,6 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -33,6 +32,7 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 
 import static com.phoosop.reactive.exception.StatusConstants.HttpConstants;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = UserController.class)
@@ -87,16 +87,16 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SUCCESS.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SUCCESS.getDesc());
-        Assertions.assertThat(actualResponse.getData().getId()).isEqualTo(1L);
-        Assertions.assertThat(actualResponse.getData().getCardId()).isEqualTo("cardId");
-        Assertions.assertThat(actualResponse.getData().getFirstName()).isEqualTo("firstName");
-        Assertions.assertThat(actualResponse.getData().getSecondName()).isEqualTo("secondName");
-        Assertions.assertThat(actualResponse.getData().getType()).isEqualTo(UserType.USER.getValue());
-        Assertions.assertThat(actualResponse.getData().getStatus()).isEqualTo(UserStatus.ACTIVE.getValue());
-        Assertions.assertThat(actualResponse.getData().getLevel()).isEqualTo(UserLevel.LEVEL_1.getValue());
-        Assertions.assertThat(actualResponse.getData().getAge()).isEqualTo(18);
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SUCCESS.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SUCCESS.getDesc());
+        assertThat(actualResponse.getData().getId()).isEqualTo(1L);
+        assertThat(actualResponse.getData().getCardId()).isEqualTo("cardId");
+        assertThat(actualResponse.getData().getFirstName()).isEqualTo("firstName");
+        assertThat(actualResponse.getData().getSecondName()).isEqualTo("secondName");
+        assertThat(actualResponse.getData().getType()).isEqualTo(UserType.USER.getValue());
+        assertThat(actualResponse.getData().getStatus()).isEqualTo(UserStatus.ACTIVE.getValue());
+        assertThat(actualResponse.getData().getLevel()).isEqualTo(UserLevel.LEVEL_1.getValue());
+        assertThat(actualResponse.getData().getAge()).isEqualTo(18);
     }
 
     @Test
@@ -130,10 +130,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -167,10 +167,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -201,10 +201,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.CARD_ID_IS_REQUIRED.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.CARD_ID_IS_REQUIRED.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.CARD_ID_IS_REQUIRED.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.CARD_ID_IS_REQUIRED.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -235,10 +235,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.FIRST_NAME_IS_REQUIRED.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.FIRST_NAME_IS_REQUIRED.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.FIRST_NAME_IS_REQUIRED.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.FIRST_NAME_IS_REQUIRED.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -269,10 +269,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SECOND_NAME_IS_REQUIRED.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SECOND_NAME_IS_REQUIRED.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SECOND_NAME_IS_REQUIRED.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SECOND_NAME_IS_REQUIRED.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -303,10 +303,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.TYPE_IS_REQUIRED.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.TYPE_IS_REQUIRED.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.TYPE_IS_REQUIRED.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.TYPE_IS_REQUIRED.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -337,10 +337,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.STATUS_IS_REQUIRED.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.STATUS_IS_REQUIRED.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.STATUS_IS_REQUIRED.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.STATUS_IS_REQUIRED.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -371,10 +371,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.DATE_OF_BIRTH_IS_REQUIRED.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.DATE_OF_BIRTH_IS_REQUIRED.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.DATE_OF_BIRTH_IS_REQUIRED.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.DATE_OF_BIRTH_IS_REQUIRED.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -405,10 +405,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.AGE_IS_REQUIRED.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.AGE_IS_REQUIRED.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.AGE_IS_REQUIRED.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.AGE_IS_REQUIRED.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -439,10 +439,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.MOBILE_NUMBER_IS_REQUIRED.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.MOBILE_NUMBER_IS_REQUIRED.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.MOBILE_NUMBER_IS_REQUIRED.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.MOBILE_NUMBER_IS_REQUIRED.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -473,10 +473,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.MOBILE_BRAND_IS_REQUIRED.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.MOBILE_BRAND_IS_REQUIRED.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.MOBILE_BRAND_IS_REQUIRED.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.MOBILE_BRAND_IS_REQUIRED.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -508,10 +508,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.TYPE_IS_INVALID.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.TYPE_IS_INVALID.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.TYPE_IS_INVALID.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.TYPE_IS_INVALID.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -543,10 +543,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.STATUS_IS_INVALID.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.STATUS_IS_INVALID.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.STATUS_IS_INVALID.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.STATUS_IS_INVALID.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -578,10 +578,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.DATE_OF_BIRTH_IS_INVALID.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.DATE_OF_BIRTH_IS_INVALID.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.DATE_OF_BIRTH_IS_INVALID.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.DATE_OF_BIRTH_IS_INVALID.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -613,10 +613,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.AGE_IS_INVALID.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.AGE_IS_INVALID.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.AGE_IS_INVALID.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.AGE_IS_INVALID.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -648,10 +648,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).createUser(Mockito.any(CreateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.AGE_IS_INVALID.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.AGE_IS_INVALID.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.AGE_IS_INVALID.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.AGE_IS_INVALID.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -696,17 +696,17 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).updateUser(Mockito.eq(1L), Mockito.any(UpdateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SUCCESS.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SUCCESS.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SUCCESS.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SUCCESS.getDesc());
 
-        Assertions.assertThat(actualResponse.getData().getId()).isEqualTo(1L);
-        Assertions.assertThat(actualResponse.getData().getCardId()).isEqualTo("cardId");
-        Assertions.assertThat(actualResponse.getData().getFirstName()).isEqualTo("firstName");
-        Assertions.assertThat(actualResponse.getData().getSecondName()).isEqualTo("secondName");
-        Assertions.assertThat(actualResponse.getData().getType()).isEqualTo(UserType.USER.getValue());
-        Assertions.assertThat(actualResponse.getData().getStatus()).isEqualTo(UserStatus.ACTIVE.getValue());
-        Assertions.assertThat(actualResponse.getData().getLevel()).isEqualTo(UserLevel.LEVEL_1.getValue());
-        Assertions.assertThat(actualResponse.getData().getAge()).isEqualTo(18);
+        assertThat(actualResponse.getData().getId()).isEqualTo(1L);
+        assertThat(actualResponse.getData().getCardId()).isEqualTo("cardId");
+        assertThat(actualResponse.getData().getFirstName()).isEqualTo("firstName");
+        assertThat(actualResponse.getData().getSecondName()).isEqualTo("secondName");
+        assertThat(actualResponse.getData().getType()).isEqualTo(UserType.USER.getValue());
+        assertThat(actualResponse.getData().getStatus()).isEqualTo(UserStatus.ACTIVE.getValue());
+        assertThat(actualResponse.getData().getLevel()).isEqualTo(UserLevel.LEVEL_1.getValue());
+        assertThat(actualResponse.getData().getAge()).isEqualTo(18);
 
     }
 
@@ -741,10 +741,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).updateUser(Mockito.eq(1L), Mockito.any(UpdateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -779,10 +779,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).updateUser(Mockito.eq(1L), Mockito.any(UpdateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.USER_NOT_FOUND.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.USER_NOT_FOUND.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.USER_NOT_FOUND.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.USER_NOT_FOUND.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -817,10 +817,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).updateUser(Mockito.eq(1L), Mockito.any(UpdateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -852,10 +852,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).updateUser(Mockito.anyLong(), Mockito.any(UpdateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.TYPE_IS_INVALID.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.TYPE_IS_INVALID.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.TYPE_IS_INVALID.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.TYPE_IS_INVALID.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -887,10 +887,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).updateUser(Mockito.anyLong(), Mockito.any(UpdateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.STATUS_IS_INVALID.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.STATUS_IS_INVALID.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.STATUS_IS_INVALID.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.STATUS_IS_INVALID.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -922,10 +922,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).updateUser(Mockito.anyLong(), Mockito.any(UpdateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.DATE_OF_BIRTH_IS_INVALID.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.DATE_OF_BIRTH_IS_INVALID.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.DATE_OF_BIRTH_IS_INVALID.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.DATE_OF_BIRTH_IS_INVALID.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -957,10 +957,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).updateUser(Mockito.anyLong(), Mockito.any(UpdateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.AGE_IS_INVALID.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.AGE_IS_INVALID.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.AGE_IS_INVALID.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.AGE_IS_INVALID.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -992,10 +992,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.never()).updateUser(Mockito.anyLong(), Mockito.any(UpdateUserRequest.class));
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.AGE_IS_INVALID.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.AGE_IS_INVALID.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.AGE_IS_INVALID.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.AGE_IS_INVALID.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
 
     }
 
@@ -1027,17 +1027,17 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).getUser(Mockito.anyLong());
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SUCCESS.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SUCCESS.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SUCCESS.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SUCCESS.getDesc());
 
-        Assertions.assertThat(actualResponse.getData().getId()).isEqualTo(1L);
-        Assertions.assertThat(actualResponse.getData().getCardId()).isEqualTo("cardId");
-        Assertions.assertThat(actualResponse.getData().getFirstName()).isEqualTo("firstName");
-        Assertions.assertThat(actualResponse.getData().getSecondName()).isEqualTo("secondName");
-        Assertions.assertThat(actualResponse.getData().getType()).isEqualTo(UserType.USER.getValue());
-        Assertions.assertThat(actualResponse.getData().getStatus()).isEqualTo(UserStatus.ACTIVE.getValue());
-        Assertions.assertThat(actualResponse.getData().getLevel()).isEqualTo(UserLevel.LEVEL_1.getValue());
-        Assertions.assertThat(actualResponse.getData().getAge()).isEqualTo(18);
+        assertThat(actualResponse.getData().getId()).isEqualTo(1L);
+        assertThat(actualResponse.getData().getCardId()).isEqualTo("cardId");
+        assertThat(actualResponse.getData().getFirstName()).isEqualTo("firstName");
+        assertThat(actualResponse.getData().getSecondName()).isEqualTo("secondName");
+        assertThat(actualResponse.getData().getType()).isEqualTo(UserType.USER.getValue());
+        assertThat(actualResponse.getData().getStatus()).isEqualTo(UserStatus.ACTIVE.getValue());
+        assertThat(actualResponse.getData().getLevel()).isEqualTo(UserLevel.LEVEL_1.getValue());
+        assertThat(actualResponse.getData().getAge()).isEqualTo(18);
     }
 
     @Test
@@ -1059,10 +1059,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).getUser(Mockito.anyLong());
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.USER_NOT_FOUND.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.USER_NOT_FOUND.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.USER_NOT_FOUND.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.USER_NOT_FOUND.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
     }
 
     @Test
@@ -1083,10 +1083,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).getUser(Mockito.anyLong());
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
     }
 
     @Test
@@ -1107,10 +1107,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).getUser(Mockito.anyLong());
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
     }
 
     @Test
@@ -1151,26 +1151,26 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).getUserList(Mockito.any());
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SUCCESS.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SUCCESS.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SUCCESS.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SUCCESS.getDesc());
 
-        Assertions.assertThat(actualResponse.getData().getNumber()).isEqualTo(1);
-        Assertions.assertThat(actualResponse.getData().getSize()).isEqualTo(2);
-        Assertions.assertThat(actualResponse.getData().getTotalElements()).isEqualTo(2);
+        assertThat(actualResponse.getData().getNumber()).isEqualTo(1);
+        assertThat(actualResponse.getData().getSize()).isEqualTo(2);
+        assertThat(actualResponse.getData().getTotalElements()).isEqualTo(2);
 
-        Assertions.assertThat(actualResponse.getData().getContent().size()).isEqualTo(2);
-        Assertions.assertThat(actualResponse.getData().getContent().get(0).getId()).isEqualTo(1L);
-        Assertions.assertThat(actualResponse.getData().getContent().get(0).getCardId()).isEqualTo("cardId");
-        Assertions.assertThat(actualResponse.getData().getContent().get(0).getFirstName()).isEqualTo("firstName");
-        Assertions.assertThat(actualResponse.getData().getContent().get(0).getSecondName()).isEqualTo("secondName");
-        Assertions.assertThat(actualResponse.getData().getContent().get(0).getType()).isEqualTo(UserType.USER.getValue());
-        Assertions.assertThat(actualResponse.getData().getContent().get(0).getStatus()).isEqualTo(UserStatus.ACTIVE.getValue());
-        Assertions.assertThat(actualResponse.getData().getContent().get(1).getId()).isEqualTo(2L);
-        Assertions.assertThat(actualResponse.getData().getContent().get(1).getCardId()).isEqualTo("cardId");
-        Assertions.assertThat(actualResponse.getData().getContent().get(1).getFirstName()).isEqualTo("firstName");
-        Assertions.assertThat(actualResponse.getData().getContent().get(1).getSecondName()).isEqualTo("secondName");
-        Assertions.assertThat(actualResponse.getData().getContent().get(1).getType()).isEqualTo(UserType.USER.getValue());
-        Assertions.assertThat(actualResponse.getData().getContent().get(1).getStatus()).isEqualTo(UserStatus.ACTIVE.getValue());
+        assertThat(actualResponse.getData().getContent().size()).isEqualTo(2);
+        assertThat(actualResponse.getData().getContent().get(0).getId()).isEqualTo(1L);
+        assertThat(actualResponse.getData().getContent().get(0).getCardId()).isEqualTo("cardId");
+        assertThat(actualResponse.getData().getContent().get(0).getFirstName()).isEqualTo("firstName");
+        assertThat(actualResponse.getData().getContent().get(0).getSecondName()).isEqualTo("secondName");
+        assertThat(actualResponse.getData().getContent().get(0).getType()).isEqualTo(UserType.USER.getValue());
+        assertThat(actualResponse.getData().getContent().get(0).getStatus()).isEqualTo(UserStatus.ACTIVE.getValue());
+        assertThat(actualResponse.getData().getContent().get(1).getId()).isEqualTo(2L);
+        assertThat(actualResponse.getData().getContent().get(1).getCardId()).isEqualTo("cardId");
+        assertThat(actualResponse.getData().getContent().get(1).getFirstName()).isEqualTo("firstName");
+        assertThat(actualResponse.getData().getContent().get(1).getSecondName()).isEqualTo("secondName");
+        assertThat(actualResponse.getData().getContent().get(1).getType()).isEqualTo(UserType.USER.getValue());
+        assertThat(actualResponse.getData().getContent().get(1).getStatus()).isEqualTo(UserStatus.ACTIVE.getValue());
     }
 
     @Test
@@ -1192,10 +1192,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).getUserList(Mockito.any());
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
     }
 
     @Test
@@ -1217,10 +1217,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).getUserList(Mockito.any());
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
     }
 
     @Test
@@ -1239,10 +1239,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).deleteUser(1L);
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SUCCESS.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SUCCESS.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SUCCESS.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SUCCESS.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
     }
 
     @Test
@@ -1264,10 +1264,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).deleteUser(1L);
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.USER_NOT_FOUND.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.USER_NOT_FOUND.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.USER_NOT_FOUND.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.USER_NOT_FOUND.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
     }
 
     @Test
@@ -1289,10 +1289,10 @@ class UserControllerTest {
 
         Mockito.verify(userComponent, Mockito.times(1)).deleteUser(1L);
 
-        Assertions.assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getCode());
-        Assertions.assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getDesc());
+        assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getCode());
+        assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.INTERNAL_SERVER_ERROR.getDesc());
 
-        Assertions.assertThat(actualResponse.getData()).isNull();
+        assertThat(actualResponse.getData()).isNull();
     }
 
 }

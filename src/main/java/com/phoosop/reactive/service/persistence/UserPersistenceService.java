@@ -1,4 +1,4 @@
-package com.phoosop.reactive.service;
+package com.phoosop.reactive.service.persistence;
 
 import com.phoosop.reactive.model.CustomPage;
 import com.phoosop.reactive.model.command.UserCommand;

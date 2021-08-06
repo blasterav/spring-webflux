@@ -18,3 +18,8 @@ r2dbc:
     max-acquire-time: 5
     max-create-connection-time: 10
     max-life-time: 1800
+
+boredapi:
+  host: https://www.boredapi.com
+  path:
+    get-activity: /api/activity

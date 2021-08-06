@@ -23,27 +23,23 @@ import javax.validation.Valid;
 public class UserController implements BaseController {
 
     private final UserComponent userComponent;
-    private final ConversionService conversionService;
 
     @PostMapping(path = "/v1/users")
     public Mono<Response<UserResponse>> createUser(@Valid @RequestBody CreateUserRequest request) {
-        Mono<UserResponse> userResponseMono = userComponent.createUser(request)
-                .map(item -> conversionService.convert(item, UserResponse.class));
+        Mono<UserResponse> userResponseMono = userComponent.createUser(request);
         return success(userResponseMono);
     }
 
     @PatchMapping(path = "/v1/users/{id}")
     public Mono<Response<UserResponse>> updateUser(@PathVariable Long id,
                                                    @Valid @RequestBody UpdateUserRequest request) {
-        Mono<UserResponse> userResponseMono = userComponent.updateUser(id, request)
-                .map(item -> conversionService.convert(item, UserResponse.class));
+        Mono<UserResponse> userResponseMono = userComponent.updateUser(id, request);
         return success(userResponseMono);
     }
 
     @GetMapping(path = "/v1/users/{id}")
     public Mono<Response<UserResponse>> getUser(@PathVariable Long id) {
-        Mono<UserResponse> userResponseMono = userComponent.getUser(id)
-                .map(item -> conversionService.convert(item, UserResponse.class));
+        Mono<UserResponse> userResponseMono = userComponent.getUser(id);
         return success(userResponseMono);
     }
 
@@ -51,13 +47,12 @@ public class UserController implements BaseController {
     public Mono<Response<CustomPage<UserShortResponse>>> getUserList(@RequestParam(required = false, defaultValue = "1") Integer page,
                                                                      @RequestParam(required = false, defaultValue = "10") Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        Mono<CustomPage<UserShortResponse>> pageMono = userComponent.getUserList(pageRequest)
-                .map(pageResponse -> pageResponse.map(item -> conversionService.convert(item, UserShortResponse.class)));
+        Mono<CustomPage<UserShortResponse>> pageMono = userComponent.getUserList(pageRequest);
         return success(pageMono);
     }
 
     @DeleteMapping(path = "/v1/users/{id}")
-    public Mono<Response<UserResponse>> deleteUser(@PathVariable Long id) {
+    public Mono<Response<Void>> deleteUser(@PathVariable Long id) {
         userComponent.deleteUser(id);
         return success();
     }

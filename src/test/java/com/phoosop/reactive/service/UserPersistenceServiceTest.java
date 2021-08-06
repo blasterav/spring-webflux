@@ -6,6 +6,7 @@ import com.phoosop.reactive.model.enums.UserLevel;
 import com.phoosop.reactive.model.enums.UserStatus;
 import com.phoosop.reactive.model.enums.UserType;
 import com.phoosop.reactive.repository.UserRepository;
+import com.phoosop.reactive.service.persistence.UserPersistenceService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

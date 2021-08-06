@@ -1,6 +1,5 @@
 package com.phoosop.reactive.model.response;
 
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
@@ -13,26 +12,20 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class UserResponse {
+public class ActivityResponse {
 
-    private Long id;
+    public String activity;
 
-    private String cardId;
+    public String type;
 
-    private String firstName;
+    public Integer participants;
 
-    private String secondName;
+    public Integer price;
 
-    private String type;
+    public String link;
 
-    private Integer status;
+    public String key;
 
-    private Integer level;
-
-    private String dateOfBirth;
-
-    private Integer age;
-
-    private ActivityResponse activity;
+    public Double accessibility;
 
 }

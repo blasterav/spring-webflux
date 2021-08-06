@@ -5,7 +5,6 @@ import com.phoosop.reactive.exception.NotFoundException;
 import com.phoosop.reactive.exception.ServiceException;
 import com.phoosop.reactive.model.CustomPage;
 import com.phoosop.reactive.model.Response;
-import com.phoosop.reactive.model.command.UserCommand;
 import com.phoosop.reactive.model.enums.UserLevel;
 import com.phoosop.reactive.model.enums.UserStatus;
 import com.phoosop.reactive.model.enums.UserType;
@@ -13,7 +12,6 @@ import com.phoosop.reactive.model.request.CreateUserRequest;
 import com.phoosop.reactive.model.request.UpdateUserRequest;
 import com.phoosop.reactive.model.response.UserResponse;
 import com.phoosop.reactive.model.response.UserShortResponse;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -44,9 +41,6 @@ class UserControllerTest {
     @MockBean
     private UserComponent userComponent;
 
-    @Autowired
-    private ConversionService conversionService;
-
     @Test
     @DisplayName("Create user - success")
     public void testCreateUser_success() throws Exception {
@@ -61,18 +55,18 @@ class UserControllerTest {
                 .setMobileNumber("12345678901")
                 .setMobileBrand("Apple");
 
-        UserCommand userCommand = new UserCommand()
+        UserResponse userResponse = new UserResponse()
                 .setId(1L)
                 .setCardId("cardId")
                 .setFirstName("firstName")
                 .setSecondName("secondName")
-                .setType(UserType.USER)
-                .setStatus(UserStatus.ACTIVE)
-                .setLevel(UserLevel.LEVEL_1)
+                .setType(UserType.USER.getValue())
+                .setStatus(UserStatus.ACTIVE.getValue())
+                .setLevel(UserLevel.LEVEL_1.getValue())
                 .setAge(18);
 
         Mockito.when(userComponent.createUser(Mockito.any(CreateUserRequest.class)))
-                .thenReturn(Mono.just(userCommand));
+                .thenReturn(Mono.just(userResponse));
 
         ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
         };
@@ -669,18 +663,18 @@ class UserControllerTest {
                 .setMobileNumber("12345678901")
                 .setMobileBrand("Apple");
 
-        UserCommand userCommand = new UserCommand()
+        UserResponse userResponse = new UserResponse()
                 .setId(1L)
                 .setCardId("cardId")
                 .setFirstName("firstName")
                 .setSecondName("secondName")
-                .setType(UserType.USER)
-                .setStatus(UserStatus.ACTIVE)
-                .setLevel(UserLevel.LEVEL_1)
+                .setType(UserType.USER.getValue())
+                .setStatus(UserStatus.ACTIVE.getValue())
+                .setLevel(UserLevel.LEVEL_1.getValue())
                 .setAge(18);
 
         Mockito.when(userComponent.updateUser(Mockito.eq(1L), Mockito.any(UpdateUserRequest.class)))
-                .thenReturn(Mono.just(userCommand));
+                .thenReturn(Mono.just(userResponse));
 
         ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
         };
@@ -1002,18 +996,18 @@ class UserControllerTest {
     @Test
     @DisplayName("Get user - success")
     public void testGetUser_success() throws Exception {
-        UserCommand userCommand = new UserCommand()
+        UserResponse userResponse = new UserResponse()
                 .setId(1L)
                 .setCardId("cardId")
                 .setFirstName("firstName")
                 .setSecondName("secondName")
-                .setType(UserType.USER)
-                .setStatus(UserStatus.ACTIVE)
-                .setLevel(UserLevel.LEVEL_1)
+                .setType(UserType.USER.getValue())
+                .setStatus(UserStatus.ACTIVE.getValue())
+                .setLevel(UserLevel.LEVEL_1.getValue())
                 .setAge(18);
 
         Mockito.when(userComponent.getUser(Mockito.eq(1L)))
-                .thenReturn(Mono.just(userCommand));
+                .thenReturn(Mono.just(userResponse));
 
         ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
         };
@@ -1116,28 +1110,24 @@ class UserControllerTest {
     @Test
     @DisplayName("Get user list - success")
     public void testGetUserList_success() throws Exception {
-        UserCommand userCommand1 = new UserCommand()
+        UserShortResponse userShortResponse1 = new UserShortResponse()
                 .setId(1L)
                 .setCardId("cardId")
                 .setFirstName("firstName")
                 .setSecondName("secondName")
-                .setType(UserType.USER)
-                .setStatus(UserStatus.ACTIVE)
-                .setLevel(UserLevel.LEVEL_1)
-                .setAge(18);
+                .setType(UserType.USER.getValue())
+                .setStatus(UserStatus.ACTIVE.getValue());
 
-        UserCommand userCommand2 = new UserCommand()
+        UserShortResponse userShortResponse2 = new UserShortResponse()
                 .setId(2L)
                 .setCardId("cardId")
                 .setFirstName("firstName")
                 .setSecondName("secondName")
-                .setType(UserType.USER)
-                .setStatus(UserStatus.ACTIVE)
-                .setLevel(UserLevel.LEVEL_1)
-                .setAge(18);
+                .setType(UserType.USER.getValue())
+                .setStatus(UserStatus.ACTIVE.getValue());
 
         Mockito.when(userComponent.getUserList(Mockito.any()))
-                .thenReturn(Mono.just(new CustomPage<>(Arrays.asList(userCommand1, userCommand2), 1, 2, 2)));
+                .thenReturn(Mono.just(new CustomPage<>(Arrays.asList(userShortResponse1, userShortResponse2), 1, 2, 2)));
 
         ParameterizedTypeReference<Response<CustomPage<UserShortResponse>>> typeReference = new ParameterizedTypeReference<Response<CustomPage<UserShortResponse>>>() {
         };

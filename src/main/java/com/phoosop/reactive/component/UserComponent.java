@@ -10,7 +10,11 @@ import com.phoosop.reactive.model.enums.UserStatus;
 import com.phoosop.reactive.model.enums.UserType;
 import com.phoosop.reactive.model.request.CreateUserRequest;
 import com.phoosop.reactive.model.request.UpdateUserRequest;
-import com.phoosop.reactive.service.UserPersistenceService;
+import com.phoosop.reactive.model.response.ActivityResponse;
+import com.phoosop.reactive.model.response.UserResponse;
+import com.phoosop.reactive.model.response.UserShortResponse;
+import com.phoosop.reactive.service.persistence.UserPersistenceService;
+import com.phoosop.reactive.service.webclient.BoredapiClientService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
@@ -24,15 +28,17 @@ import reactor.core.publisher.Mono;
 public class UserComponent {
 
     private final UserPersistenceService userPersistenceService;
+    private final BoredapiClientService boredapiClientService;
     private final ConversionService conversionService;
 
-    public Mono<UserCommand> createUser(CreateUserRequest request) {
+    public Mono<UserResponse> createUser(CreateUserRequest request) {
         UserCommand userCommand = conversionService.convert(request, UserCommand.class);
         userCommand.setLevel(UserLevel.LEVEL_1);
-        return userPersistenceService.save(userCommand);
+        return userPersistenceService.save(userCommand)
+                .map(item -> conversionService.convert(item, UserResponse.class));
     }
 
-    public Mono<UserCommand> updateUser(long id, UpdateUserRequest request) {
+    public Mono<UserResponse> updateUser(long id, UpdateUserRequest request) {
         return userPersistenceService.findById(id)
                 .switchIfEmpty(Mono.error(new NotFoundException(
                         HttpConstants.USER_NOT_FOUND)))
@@ -62,16 +68,22 @@ public class UserComponent {
                     }
                     return userCommand;
                 })
-                .flatMap(userPersistenceService::save);
+                .flatMap(userPersistenceService::save)
+                .map(item -> conversionService.convert(item, UserResponse.class));
     }
 
-    public Mono<UserCommand> getUser(long id) {
+    public Mono<UserResponse> getUser(long id) {
         return userPersistenceService.findById(id)
-                .switchIfEmpty(Mono.error(new NotFoundException(HttpConstants.USER_NOT_FOUND)));
+                .switchIfEmpty(Mono.error(new NotFoundException(HttpConstants.USER_NOT_FOUND)))
+                .map(item -> conversionService.convert(item, UserResponse.class))
+                .flatMap(userResponse -> boredapiClientService.getActivity()
+                        .map(activityCommand -> conversionService.convert(activityCommand, ActivityResponse.class))
+                        .map(userResponse::setActivity));
     }
 
-    public Mono<CustomPage<UserCommand>> getUserList(Pageable pageable) {
-        return userPersistenceService.findAll(pageable);
+    public Mono<CustomPage<UserShortResponse>> getUserList(Pageable pageable) {
+        return userPersistenceService.findAll(pageable)
+                .map(pageResponse -> pageResponse.map(item -> conversionService.convert(item, UserShortResponse.class)));
     }
 
     public void deleteUser(long id) {

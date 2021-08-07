@@ -144,7 +144,7 @@ class UserPersistenceServiceTest {
                 .setLevel(UserLevel.LEVEL_1);
 
         Mockito.when(userRepository.count()).thenReturn(Mono.just(1L));
-        Mockito.when(userRepository.findAll()).thenReturn(Flux.just(userEntity));
+        Mockito.when(userRepository.findAll(Mockito.eq(0), Mockito.eq(10))).thenReturn(Flux.just(userEntity));
         Mockito.when(conversionService.convert(userEntity, UserCommand.class)).thenReturn(userCommand);
 
         StepVerifier.create(userPersistenceService.findAll(pageRequest))
@@ -167,7 +167,7 @@ class UserPersistenceServiceTest {
                 })
                 .verifyComplete();
         Mockito.verify(userRepository, Mockito.times(1)).count();
-        Mockito.verify(userRepository, Mockito.times(1)).findAll();
+        Mockito.verify(userRepository, Mockito.times(1)).findAll(Mockito.eq(0), Mockito.eq(10));
         Mockito.verify(conversionService, Mockito.times(1)).convert(userEntity, UserCommand.class);
     }
 

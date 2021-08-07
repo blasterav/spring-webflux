@@ -8,7 +8,6 @@ import com.phoosop.reactive.model.request.UpdateUserRequest;
 import com.phoosop.reactive.model.response.UserResponse;
 import com.phoosop.reactive.model.response.UserShortResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

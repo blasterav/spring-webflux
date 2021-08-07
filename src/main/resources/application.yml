@@ -4,16 +4,16 @@ server:
     timeout-per-shutdown-phase: 30s
 
 r2dbc:
-#  hostname: host.docker.internal
-  hostname: localhost
+  hostname: host.docker.internal
+#  hostname: localhost
   database: test
   port: 3306
   username: root
   password: Thebreaker
   connection-timeout: 10
   pool:
-    initial-size: 4
-    max-size: 4
+    initial-size: 2
+    max-size: 8
     max-idle-time: 90
     max-acquire-time: 5
     max-create-connection-time: 10

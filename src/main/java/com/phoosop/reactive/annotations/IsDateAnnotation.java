@@ -2,6 +2,7 @@ package com.phoosop.reactive.annotations;
 
 import com.phoosop.reactive.exception.InvalidRequestException;
 import com.phoosop.reactive.util.DateTimeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
@@ -24,7 +25,7 @@ public class IsDateAnnotation implements ConstraintValidator<IsDate, String> {
 
     @Override
     public boolean isValid(String date, ConstraintValidatorContext constraintValidatorContext) {
-        if (date != null) {
+        if (StringUtils.isNotBlank(date)) {
             if (DateTimeUtils.parse(date, format).isPresent()) {
                 return true;
             }

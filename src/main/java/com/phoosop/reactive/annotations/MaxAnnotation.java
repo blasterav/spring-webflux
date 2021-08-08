@@ -23,12 +23,12 @@ public class MaxAnnotation implements ConstraintValidator<Max, Object> {
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext constraintValidatorContext) {
         if (value != null) {
-            if (value instanceof Integer) {
-                if ((Integer) value > min) {
+            if (value instanceof Integer intValue) {
+                if (intValue > min) {
                     throw new InvalidRequestException(exception);
                 }
-            } else if (value instanceof Long) {
-                if ((Long) value > min) {
+            } else if (value instanceof Long longValue) {
+                if (longValue > min) {
                     throw new InvalidRequestException(exception);
                 }
             }

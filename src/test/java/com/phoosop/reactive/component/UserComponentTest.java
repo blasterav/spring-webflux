@@ -156,8 +156,7 @@ class UserComponentTest {
         Mockito.when(userPersistenceService.findById(id)).thenReturn(Mono.empty());
         StepVerifier.create(userComponent.updateUser(id, request))
                 .expectErrorMatches(throwable -> {
-                    if (throwable instanceof NotFoundException) {
-                        NotFoundException exception = (NotFoundException) throwable;
+                    if (throwable instanceof NotFoundException exception) {
                         return exception.getStatus().equals(HttpConstants.USER_NOT_FOUND);
                     }
                     return false;
@@ -183,8 +182,7 @@ class UserComponentTest {
         Mockito.when(userPersistenceService.findById(id)).thenReturn(Mono.just(findById));
         StepVerifier.create(userComponent.updateUser(id, request))
                 .expectErrorMatches(throwable -> {
-                    if (throwable instanceof ServiceException) {
-                        ServiceException exception = (ServiceException) throwable;
+                    if (throwable instanceof ServiceException exception) {
                         return exception.getStatus().equals(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM);
                     }
                     return false;
@@ -210,8 +208,7 @@ class UserComponentTest {
         Mockito.when(userPersistenceService.findById(id)).thenReturn(Mono.just(findById));
         StepVerifier.create(userComponent.updateUser(id, request))
                 .expectErrorMatches(throwable -> {
-                    if (throwable instanceof ServiceException) {
-                        ServiceException exception = (ServiceException) throwable;
+                    if (throwable instanceof ServiceException exception) {
                         return exception.getStatus().equals(HttpConstants.FAILED_TO_CONVERT_VALUE_TO_ENUM);
                     }
                     return false;
@@ -296,8 +293,7 @@ class UserComponentTest {
         Mockito.when(userPersistenceService.findById(id)).thenReturn(Mono.empty());
         StepVerifier.create(userComponent.getUser(id))
                 .expectErrorMatches(throwable -> {
-                    if (throwable instanceof NotFoundException) {
-                        NotFoundException exception = (NotFoundException) throwable;
+                    if (throwable instanceof NotFoundException exception) {
                         return exception.getStatus().equals(HttpConstants.USER_NOT_FOUND);
                     }
                     return false;

@@ -43,61 +43,49 @@ public class CustomErrorWebExceptionHandler extends AbstractErrorWebExceptionHan
 
     @Override
     protected void logError(ServerRequest request, ServerResponse response, Throwable throwable) {
-        
+
     }
 
     private Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
         Throwable error = getError(request);
-        if (error instanceof ServiceException) {
-            ServiceException exception = (ServiceException) error;
+        if (error instanceof ServiceException exception) {
             LOG.error("Failed {} {}: {}, {}", request.methodName(), request.uri().getPath(), exception.getStatus().getCode(), exception.getStatus().getDesc());
             return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(BodyInserters.fromValue(new Response<>(new Status(exception.getStatus()), null)));
 
-        } else if (error instanceof InvalidRequestException) {
-            InvalidRequestException exception = (InvalidRequestException) error;
+        } else if (error instanceof InvalidRequestException exception) {
             LOG.error("Failed {} {}: {}, {}", request.methodName(), request.uri().getPath(), exception.getStatus().getCode(), exception.getStatus().getDesc());
             return ServerResponse.status(HttpStatus.BAD_REQUEST)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(BodyInserters.fromValue(new Response<>(new Status(exception.getStatus()), null)));
 
-        } else if (error instanceof NotFoundException) {
-            NotFoundException exception = (NotFoundException) error;
+        } else if (error instanceof NotFoundException exception) {
             LOG.error("Failed {} {}: {}, {}", request.methodName(), request.uri().getPath(), exception.getStatus().getCode(), exception.getStatus().getDesc());
             return ServerResponse.status(HttpStatus.NOT_FOUND)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(BodyInserters.fromValue(new Response<>(new Status(exception.getStatus()), null)));
 
-        } else if (error instanceof ValidationException) {
-            if (error.getCause() instanceof InvalidRequestException) {
-                InvalidRequestException exception = (InvalidRequestException) error.getCause();
-                LOG.error("Failed {} {}: {}, {}", request.methodName(), request.uri().getPath(), exception.getStatus().getCode(), exception.getStatus().getDesc());
-                return ServerResponse.status(HttpStatus.BAD_REQUEST)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromValue(new Response<>(new Status(exception.getStatus()), null)));
-            }
-            return this.internalServerError(request, error);
+        } else if (error instanceof ValidationException
+                && error.getCause() instanceof InvalidRequestException exception) {
+            LOG.error("Failed {} {}: {}, {}", request.methodName(), request.uri().getPath(), exception.getStatus().getCode(), exception.getStatus().getDesc());
+            return ServerResponse.status(HttpStatus.BAD_REQUEST)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(new Response<>(new Status(exception.getStatus()), null)));
 
-        } else if (error instanceof ConversionFailedException) {
-            if (error.getCause() instanceof ServiceException) {
-                ServiceException exception = (ServiceException) error.getCause();
-                LOG.error("Failed {} {}: {}, {}", request.methodName(), request.uri().getPath(), exception.getStatus().getCode(), exception.getStatus().getDesc());
+        } else if (error instanceof ConversionFailedException
+                && error.getCause() instanceof ServiceException exception) {
+            LOG.error("Failed {} {}: {}, {}", request.methodName(), request.uri().getPath(), exception.getStatus().getCode(), exception.getStatus().getDesc());
+            return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(new Response<>(new Status(exception.getStatus()), null)));
+
+        } else if (error instanceof ResponseStatusException exception) {
+            LOG.error("Failed {} {}: {}", request.methodName(), request.uri().getPath(), error.getMessage());
+            if (exception.getReason() != null && exception.getReason().equals("No matching handler")) {
                 return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromValue(new Response<>(new Status(exception.getStatus()), null)));
-            }
-            return this.internalServerError(request, error);
-
-        } else if (error instanceof ResponseStatusException) {
-            ResponseStatusException exception = (ResponseStatusException) error;
-            LOG.error("Failed {} {}: {}", request.methodName(), request.uri().getPath(), error.getMessage());
-            if (exception.getReason()!= null) {
-                if (exception.getReason().equals("No matching handler")) {
-                    return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .body(BodyInserters.fromValue(new Response<>(new Status(HttpConstants.NO_MATCHING_HANDLER), null)));
-                }
+                        .body(BodyInserters.fromValue(new Response<>(new Status(HttpConstants.NO_MATCHING_HANDLER), null)));
             }
             if (exception.getCause() instanceof DecodingException) {
                 return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -14,9 +14,9 @@
 	<name>reactive</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>16</java.version>
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-		<org.projectlombok.version>1.18.16</org.projectlombok.version>
+		<org.projectlombok.version>1.18.20</org.projectlombok.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -88,8 +88,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
+<!--					<source>${java.version}</source>-->
+<!--					<target>${java.version}</target>-->
+					<release>${java.version}</release>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>

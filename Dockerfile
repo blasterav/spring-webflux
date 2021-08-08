@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:16.0.2-jdk
 VOLUME /tmp
 COPY target/*.jar app.jar
 ENTRYPOINT ["java", \

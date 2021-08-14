@@ -28,7 +28,7 @@ public class R2DBCConfig extends AbstractR2dbcConfiguration {
     @Bean
     public ConnectionFactory connectionFactory() {
         ConnectionFactory connectionFactory = ConnectionFactoryBuilder.withOptions(ConnectionFactoryOptions.builder()
-                .option(DRIVER, "mysql") // should not be "pool"
+                .option(DRIVER, "mysql")
                 .option(HOST, r2DBCProperties.getHostname())
                 .option(PORT, r2DBCProperties.getPort())
                 .option(USER, r2DBCProperties.getUsername())

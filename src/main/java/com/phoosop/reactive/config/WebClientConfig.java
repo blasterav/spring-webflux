@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
 
 import javax.net.ssl.SSLException;
+import java.time.Duration;
 
 @Configuration
 @RequiredArgsConstructor
@@ -25,7 +27,16 @@ public class WebClientConfig {
                 .trustManager(InsecureTrustManagerFactory.INSTANCE)
                 .build();
 
-        HttpClient httpClient = HttpClient.create().secure(sslSpec -> sslSpec.sslContext(sslContext));
+        ConnectionProvider connectionProvider = ConnectionProvider.builder("boredapi")
+//                .maxConnections(500)
+//                .pendingAcquireMaxCount(1000)
+                .maxIdleTime(Duration.ofSeconds(20))
+                .maxLifeTime(Duration.ofSeconds(60))
+                .pendingAcquireTimeout(Duration.ofSeconds(60))
+                .build();
+
+        HttpClient httpClient = HttpClient.create(connectionProvider)
+                .secure(sslSpec -> sslSpec.sslContext(sslContext));
 
         return WebClient.builder()
                 .baseUrl(boredapiProperties.getHost())

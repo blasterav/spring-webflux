@@ -20,6 +20,6 @@ r2dbc:
     max-life-time: 1800
 
 boredapi:
-  host: https://www.boredapi.com
+  host: http://host.docker.internal:9100
   path:
     get-activity: /api/activity

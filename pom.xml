@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.0</version>
+		<version>2.5.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.phoosop</groupId>
@@ -52,11 +52,11 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>io.projectreactor.tools</groupId>-->
-<!--			<artifactId>blockhound-junit-platform</artifactId>-->
-<!--			<version>1.0.6.RELEASE</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>io.projectreactor.tools</groupId>
+			<artifactId>blockhound-junit-platform</artifactId>
+			<version>1.0.6.RELEASE</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>

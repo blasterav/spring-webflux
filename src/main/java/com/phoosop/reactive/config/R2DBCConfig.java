@@ -8,6 +8,7 @@ import io.r2dbc.spi.ConnectionFactoryOptions;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.boot.r2dbc.ConnectionFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
@@ -26,7 +27,7 @@ public class R2DBCConfig extends AbstractR2dbcConfiguration {
     @Override
     @Bean
     public ConnectionFactory connectionFactory() {
-        ConnectionFactory connectionFactory = ConnectionFactories.get(ConnectionFactoryOptions.builder()
+        ConnectionFactory connectionFactory = ConnectionFactoryBuilder.withOptions(ConnectionFactoryOptions.builder()
                 .option(DRIVER, "mysql") // should not be "pool"
                 .option(HOST, r2DBCProperties.getHostname())
                 .option(PORT, r2DBCProperties.getPort())
@@ -34,8 +35,7 @@ public class R2DBCConfig extends AbstractR2dbcConfiguration {
                 .option(PASSWORD, r2DBCProperties.getPassword())
                 .option(DATABASE, r2DBCProperties.getDatabase())
                 .option(CONNECT_TIMEOUT, ofSeconds(r2DBCProperties.getConnectionTimeout()))
-                .option(SSL, false)
-                .build());
+                .option(SSL, false)).build();
 
         ConnectionPoolConfiguration configuration = ConnectionPoolConfiguration
                 .builder(connectionFactory)

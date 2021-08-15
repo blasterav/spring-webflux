@@ -15,12 +15,16 @@ import com.phoosop.reactive.model.response.UserResponse;
 import com.phoosop.reactive.model.response.UserShortResponse;
 import com.phoosop.reactive.service.persistence.UserPersistenceService;
 import com.phoosop.reactive.service.webclient.BoredapiClientService;
+import com.phoosop.reactive.util.CryptoUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+
+import java.util.Base64;
 
 
 @Component
@@ -88,5 +92,13 @@ public class UserComponent {
 
     public void deleteUser(long id) {
         userPersistenceService.delete(id);
+    }
+
+    public Mono<String> generateRSA(Long id) {
+        return userPersistenceService.findById(id)
+                .switchIfEmpty(Mono.error(new NotFoundException(HttpConstants.USER_NOT_FOUND)))
+                .publishOn(Schedulers.boundedElastic())
+                .flatMap(userCommand -> Mono.fromCallable(CryptoUtils::generateKeyPair))
+                .map(keyPair -> Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded()));
     }
 }

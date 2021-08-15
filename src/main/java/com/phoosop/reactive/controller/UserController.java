@@ -56,4 +56,10 @@ public class UserController implements BaseController {
         return success();
     }
 
+    @PostMapping(path = "/v1/users/{id}/generate-rsa")
+    public Mono<Response<String>> generateRSA(@PathVariable Long id) {
+        Mono<String> rsa = userComponent.generateRSA(id);
+        return success(rsa);
+    }
+
 }

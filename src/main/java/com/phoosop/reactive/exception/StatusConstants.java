@@ -40,6 +40,7 @@ public class StatusConstants {
         USER_ID_IS_REQUIRED("TEMP31352", "user_id is required"),
         PASSED_VERIFICATION_TYPE_IS_REQUIRED("TEMP31353", "passed_verification_type is required"),
 
+        METHOD_NOT_ALLOWED("TEMP31994", "Method not allowed"),
         JSON_DECODING_ERROR("TEMP31995", "JSON Decoding error"),
         NO_MATCHING_HANDLER("TEMP31996", "No matching handler"),
         NOT_FOUND("TEMP31997", "Not found"),

@@ -17,6 +17,7 @@ import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.*;
+import org.springframework.web.server.MethodNotAllowedException;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
@@ -79,6 +80,12 @@ public class CustomErrorWebExceptionHandler extends AbstractErrorWebExceptionHan
             return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(BodyInserters.fromValue(new Response<>(new Status(exception.getStatus()), null)));
+
+        } else if (throwable instanceof MethodNotAllowedException) {
+            LOG.error("Failed {} {}: {}", request.methodName(), request.uri().getPath(), throwable.getMessage());
+            return ServerResponse.status(HttpStatus.METHOD_NOT_ALLOWED)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(new Response<>(new Status(HttpConstants.METHOD_NOT_ALLOWED), null)));
 
         } else if (throwable instanceof ResponseStatusException exception) {
             LOG.error("Failed {} {}: {}", request.methodName(), request.uri().getPath(), throwable.getMessage());

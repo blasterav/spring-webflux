@@ -1,7 +1,38 @@
 server:
+  port: 8090
   shutdown: graceful
   lifecycle:
     timeout-per-shutdown-phase: 30s
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoints:
+    actuator:
+      enabled: true
+    prometheus:
+      enabled: true
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      base-path: /
+      path-mapping:
+        prometheus: /prometheus
+        health: /health
+        info: /info
+      exposure:
+        include: info,prometheus,health
 
 r2dbc:
   hostname: host.docker.internal

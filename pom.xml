@@ -17,6 +17,11 @@
 		<java.version>16</java.version>
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 		<org.projectlombok.version>1.18.20</org.projectlombok.version>
+		<io.micrometer.version>1.7.3</io.micrometer.version>
+		<dev.miku.version>0.8.2.RELEASE</dev.miku.version>
+		<io.projectreactor.tools.version>1.0.6.RELEASE</io.projectreactor.tools.version>
+		<org.apache.commons.version>3.4</org.apache.commons.version>
+		<commons-codec.version>1.15</commons-codec.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -43,20 +48,24 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>dev.miku</groupId>
 			<artifactId>r2dbc-mysql</artifactId>
-			<version>0.8.2.RELEASE</version>
+			<version>${dev.miku.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>io.projectreactor.tools</groupId>-->
-<!--			<artifactId>blockhound-junit-platform</artifactId>-->
-<!--			<version>1.0.6.RELEASE</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>io.projectreactor.tools</groupId>
+			<artifactId>blockhound-junit-platform</artifactId>
+			<version>${io.projectreactor.tools.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -67,17 +76,22 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
+			<version>${org.apache.commons.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.15</version>
+			<version>${commons-codec.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>${org.mapstruct.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>${io.micrometer.version}</version>
 		</dependency>
 	</dependencies>
 

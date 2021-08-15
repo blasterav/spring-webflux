@@ -211,6 +211,127 @@ And after just add `BlockHound.install();` to your Application
 
 }
 
+##Testing
+
+Example of integration test(used to test controller):
+
+    @ExtendWith(SpringExtension.class)
+    @WebFluxTest(controllers = UserController.class)
+    class UserControllerTest {
+    
+        @Autowired
+        private WebTestClient webTestClient;
+    
+        @MockBean
+        private UserComponent userComponent;
+    
+        @Test
+        @DisplayName("Create user - success")
+        public void testCreateUser_success() throws Exception {
+            CreateUserRequest actualRequest = new CreateUserRequest()
+                    .setCardId("cardId")
+                    .setFirstName("firstName")
+                    .setSecondName("secondName")
+                    .setType(UserType.USER.getValue())
+                    .setStatus(UserStatus.ACTIVE.getValue())
+                    .setDateOfBirth("11-11-1991")
+                    .setAge(18)
+                    .setMobileNumber("12345678901")
+                    .setMobileBrand("Apple");
+    
+            UserResponse userResponse = new UserResponse()
+                    .setId(1L)
+                    .setCardId("cardId")
+                    .setFirstName("firstName")
+                    .setSecondName("secondName")
+                    .setType(UserType.USER.getValue())
+                    .setStatus(UserStatus.ACTIVE.getValue())
+                    .setLevel(UserLevel.LEVEL_1.getValue())
+                    .setAge(18);
+    
+            Mockito.when(userComponent.createUser(Mockito.any(CreateUserRequest.class)))
+                    .thenReturn(Mono.just(userResponse));
+    
+            ParameterizedTypeReference<Response<UserResponse>> typeReference = new ParameterizedTypeReference<Response<UserResponse>>() {
+            };
+            Response<UserResponse> actualResponse = webTestClient.post().uri("/v1/users")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(actualRequest))
+                    .exchange()
+                    .expectStatus().isOk()
+                    .expectBody(typeReference)
+                    .returnResult()
+                    .getResponseBody();
+    
+            Mockito.verify(userComponent, Mockito.times(1)).createUser(Mockito.any(CreateUserRequest.class));
+    
+            assertThat(actualResponse.getStatus().getCode()).isEqualTo(HttpConstants.SUCCESS.getCode());
+            assertThat(actualResponse.getStatus().getMessage()).isEqualTo(HttpConstants.SUCCESS.getDesc());
+            assertThat(actualResponse.getData().getId()).isEqualTo(1L);
+            assertThat(actualResponse.getData().getCardId()).isEqualTo("cardId");
+            assertThat(actualResponse.getData().getFirstName()).isEqualTo("firstName");
+            assertThat(actualResponse.getData().getSecondName()).isEqualTo("secondName");
+            assertThat(actualResponse.getData().getType()).isEqualTo(UserType.USER.getValue());
+            assertThat(actualResponse.getData().getStatus()).isEqualTo(UserStatus.ACTIVE.getValue());
+            assertThat(actualResponse.getData().getLevel()).isEqualTo(UserLevel.LEVEL_1.getValue());
+            assertThat(actualResponse.getData().getAge()).isEqualTo(18);
+        }
+    }
+
+Example of unit test:
+
+    @ExtendWith(MockitoExtension.class)
+    class UserComponentTest {
+    
+        @InjectMocks
+        private UserComponent userComponent;
+    
+        @Mock
+        private ConversionService conversionService;
+    
+        @Mock
+        private UserPersistenceService userPersistenceService;
+    
+        @Mock
+        private BoredapiClientService boredapiClientService;
+    
+        @Test
+        public void testCreateUser() {
+            CreateUserRequest request = new CreateUserRequest();
+            UserCommand returnConverterToUserCommand = new UserCommand();
+            UserCommand returnPersistence = new UserCommand();
+    
+            UserResponse returnConverterToUserResponse = new UserResponse()
+                    .setAge(1)
+                    .setCardId("card_id")
+                    .setDateOfBirth("27-11-1991")
+                    .setStatus(UserStatus.ACTIVE.getValue())
+                    .setType(UserType.USER.getValue())
+                    .setFirstName("firstName")
+                    .setSecondName("secondName")
+                    .setId(1L)
+                    .setLevel(UserLevel.LEVEL_1.getValue());
+    
+            Mockito.when(conversionService.convert(request, UserCommand.class)).thenReturn(returnConverterToUserCommand);
+            Mockito.when(userPersistenceService.save(returnConverterToUserCommand)).thenReturn(Mono.just(returnPersistence));
+            Mockito.when(conversionService.convert(returnPersistence, UserResponse.class)).thenReturn(returnConverterToUserResponse);
+            StepVerifier.create(userComponent.createUser(request))
+                    .expectNextMatches(result -> result.getAge().equals(1)
+                            && result.getCardId().equals("card_id")
+                            && result.getDateOfBirth().equals("27-11-1991")
+                            && result.getStatus().equals(UserStatus.ACTIVE.getValue())
+                            && result.getType().equals(UserType.USER.getValue())
+                            && result.getFirstName().equals("firstName")
+                            && result.getSecondName().equals("secondName")
+                            && result.getId().equals(1L)
+                            && result.getLevel().equals(UserLevel.LEVEL_1.getValue()))
+                    .verifyComplete();
+            Mockito.verify(conversionService, Mockito.times(1)).convert(request, UserCommand.class);
+            Mockito.verify(userPersistenceService, Mockito.times(1)).save(returnConverterToUserCommand);
+            Mockito.verify(conversionService, Mockito.times(1)).convert(returnPersistence, UserResponse.class);
+        }
+    }
+
 ## References
 
 For more details please refer to:

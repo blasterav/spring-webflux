@@ -37,8 +37,6 @@ public class UserPersistenceService {
         Mono<Long> countMono = userRepository.count();
         int skip = pageable.getPageNumber() == 1 ? 0 : pageable.getPageNumber() * pageable.getPageSize();
         Mono<List<UserCommand>> userCommandFlux = userRepository.findAll(skip, pageable.getPageSize())
-                .skip(skip)
-                .take(pageable.getPageSize())
                 .map(item -> conversionService.convert(item, UserCommand.class))
                 .collectList();
 
